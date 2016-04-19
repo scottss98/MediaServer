@@ -25,7 +25,20 @@ public class MediaLibrary {
 		MediaItem.setFolderImageFileNames(mediaConfig.getFolderImageFileNames());
 		MediaItem.setImageMap(imageMap);
 		MediaFolder.setVideoExtensions(mediaConfig.getVideoExtensions());
-		this.baseFolder = new MediaFolder(mediaConfig.getBaseDirectory());
+		
+		String baseDirectory = mediaConfig.getBaseDirectory();
+		if (baseDirectory != null) {
+			this.baseFolder = new MediaFolder(baseDirectory);
+		}
+		else {
+			List<String> directories = mediaConfig.getBaseDirectories();
+			if (directories != null) {
+				this.baseFolder = new MediaFolder();
+				for (String directory : directories) {
+					this.baseFolder.addFolder(new MediaFolder(directory));
+				}
+			}
+		}
 
 		System.out.println(baseFolder.toString());
 	}

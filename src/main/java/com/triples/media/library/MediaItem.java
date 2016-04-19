@@ -22,6 +22,7 @@ public class MediaItem implements Comparable<MediaItem> {
 	private static ImageMap imageMap;
 	private static Integer nextId = 1;
 	private static Map<String, MediaItem> fileMap = new HashMap<>();
+	private static File unknownImageFile = null;
 
 	public static void setFolderImageFileNames(List<String> folderImageFileNames) {
 		MediaItem.folderImageFileNames = folderImageFileNames;
@@ -201,8 +202,12 @@ public class MediaItem implements Comparable<MediaItem> {
 				}
 			}
 		}
-
-		return null;
+		
+		if (unknownImageFile == null) {
+			ClassLoader classLoader = MediaItem.class.getClassLoader();
+			unknownImageFile = new File(classLoader.getResource("images/matt-icons_file-x-unknown.png").getFile());
+		}
+		return unknownImageFile;
 	}
 	
 	private static File doesFileExist(File folder, String fileName) {
@@ -261,7 +266,11 @@ public class MediaItem implements Comparable<MediaItem> {
 			// Movie so just sort by title
 			int result = mediaName.compareTo(o.mediaName);
 			if ((result == 0) && (metaData != null) && (o.metaData != null)) {
-				result = metaData.getYear().compareTo(o.metaData.getYear());
+				Integer thisYear = metaData.getYear();
+				Integer thatYear = o.metaData.getYear();
+				if (thisYear != null) {
+					result = metaData.getYear().compareTo(o.metaData.getYear());
+				}
 			}
 			return result;
 		}

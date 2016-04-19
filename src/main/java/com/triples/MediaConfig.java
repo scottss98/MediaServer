@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "media")
 public class MediaConfig {
 	private String baseDirectory;
+	private List<String> baseDirectories;
 	private List<String> videoExtensions;
 	private List<String> folderImageFileNames;
 
@@ -23,6 +24,14 @@ public class MediaConfig {
 
 	public void setBaseDirectory(String baseDirectory) {
 		this.baseDirectory = baseDirectory;
+	}
+
+	public List<String> getBaseDirectories() {
+		return baseDirectories;
+	}
+
+	public void setBaseDirectories(List<String> baseDirectories) {
+		this.baseDirectories = baseDirectories;
 	}
 
 	public List<String> getVideoExtensions() {

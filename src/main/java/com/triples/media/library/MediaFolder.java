@@ -17,6 +17,10 @@ public class MediaFolder extends MediaItem {
 	private Set<MediaItem> mediaList;
 	private boolean bEmpty = true;
 
+	public MediaFolder() {
+		super();
+	}
+	
 	public MediaFolder(File folder) {
 		super(folder);
 		mediaList = findMedia();
@@ -24,6 +28,14 @@ public class MediaFolder extends MediaItem {
 
 	public MediaFolder(String folderPath) {
 		this(new File(folderPath));
+	}
+	
+	public void addFolder(MediaFolder folder) {
+		if (mediaList == null) {
+			mediaList = new TreeSet<>();
+		}
+		
+		mediaList.add(folder);
 	}
 
 	public String getFolderName() {
@@ -55,12 +67,6 @@ public class MediaFolder extends MediaItem {
 		return list;
 	}
 
-	public List<MediaItem> getSortedFiles() {
-		List<MediaItem> list = getFiles();
-		Collections.sort(list);
-		return list;
-	}
-
 	public List<MediaFolder> getDirectories() {
 		List<MediaFolder> list = new ArrayList<>();
 		for (MediaItem item : mediaList) {
@@ -74,12 +80,6 @@ public class MediaFolder extends MediaItem {
 				// Skipping files
 			}
 		}
-		return list;
-	}
-	
-	public List<MediaFolder> getSortedDirectories() {
-		List<MediaFolder> list = getDirectories();
-		Collections.sort(list);
 		return list;
 	}
 
